@@ -31,4 +31,8 @@ jobs:
         docker build -t cicdpipeline.azurecr.io/node:latest .
         docker push cicdpipeline.azurecr.io/node:latest
         
-    
+      with:
+        context: /home/runner/work/Common/Common/src
+        push: true
+        tags: |
+          cicdpipeline.azurecr.io/python-imdb:${{ github.run_number }}
