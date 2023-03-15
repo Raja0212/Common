@@ -37,7 +37,7 @@
 #           docker build -t cicdpipeline.azurecr.io/python:latest -f "C:\Users\onesi\ci-cd_sathish\src\Dockerfile" C:\Users\onesi\ci-cd_sathish\src
 #           docker push cicdpipeline.azurecr.io/python:latest
           
-name: Build and Push Docker Image
+name: build/run/push/src/sathish
 
 on:
   workflow_dispatch:
