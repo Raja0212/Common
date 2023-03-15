@@ -1,33 +1,30 @@
-name: Docker Image CI
+name: build/run/push/src/sathish
 
 on:
-  workflow_dispatch: 
+  workflow_dispatch:
 #   push:
-#     branches: [ "master" ]
-#   pull_request:
-#     branches: [ "master" ]
-
-jobs:
-
-  build:
-
-    runs-on: ubuntu-latest
-
-    steps:
-    - uses: actions/checkout@v3
-#     - name: Build the Docker image
-#       run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
-      
-    - name: Checkout repository
-      uses: actions/checkout@v3
-    - name: Login to ACR
-      uses: azure/docker-login@v1
-      with:
-        login-server: cicdpipeline.azurecr.io
-        username: ${{ secrets.ACR_USERNAME }}
-        password: ${{ secrets.ACR_PASSWORD }}
-    - name: Build and push image
-      run: |
-        docker build -t cicdpipeline.azurecr.io/node:latest /home/runner/work/Common/Common/node
-        docker push cicdpipeline.azurecr.io/node:latest
+#     branches:
+#       - main
   
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      
+      - name: Login to Azure Container Registry
+        uses: azure/docker-login@v1
+        with:
+          login-server: cicdpipeline.azurecr.io
+          username: ${{ secrets.ACR_USERNAME }}
+          password: ${{ secrets.ACR_PASSWORD }}
+      
+      - name: Build and push Docker images
+        uses: docker/build-push-action@v2
+        with:
+          context: /home/runner/work/Common/Common/node
+          push: true
+          tags: |
+            cicdpipeline.azurecr.io/node-docker:${{ github.run_number }}
+
