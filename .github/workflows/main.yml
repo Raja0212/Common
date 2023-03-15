@@ -1,4 +1,4 @@
-name: build/run/push/src/sathish
+name: Node Image to ACR 
 
 on:
   workflow_dispatch:
